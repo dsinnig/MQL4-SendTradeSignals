@@ -130,6 +130,48 @@ int OnCalculate(const int rates_total,
       }
    
    if (prev_calculated == rates_total) {
+      double ema12C = iMA(NULL,0,12,0,MODE_EMA,PRICE_HIGH,0);
+      double ema34H = iMA(NULL,0,34,0,MODE_EMA,PRICE_HIGH,0);
+      double ema34L = iMA(NULL,0,34,0,MODE_EMA,PRICE_LOW,0);
+      double ema144C = iMA(NULL,0,144,0,MODE_EMA,PRICE_CLOSE,0);
+      double ema169C = iMA(NULL,0,169,0,MODE_EMA,PRICE_CLOSE,0);
+            
+      if ((ema34H < ema169C) && (ema34H < ema144C)) {
+          trendBuffer[0] = -1;
+          if (trendBuffer[1] == -1) {
+            durationBuffer[0] = durationBuffer[1]+1;
+            priceAtTrendChangeBuffer[0] = priceAtTrendChangeBuffer[1];
+          }
+          else {
+            durationBuffer[0]=1;
+            priceAtTrendChangeBuffer[0] = Open[0];
+         }
+          return rates_total;
+      }
+            
+      if ((ema34L > ema144C) && (ema34L > ema169C)) {
+          trendBuffer[0] = 1;
+          if (trendBuffer[1] == 1) {
+            durationBuffer[0] = durationBuffer[1]+1;
+            priceAtTrendChangeBuffer[0] = priceAtTrendChangeBuffer[1];
+          }
+          else {
+            durationBuffer[0]=1;
+            priceAtTrendChangeBuffer[0] = Open[0];
+         }
+         return rates_total;
+      }
+      
+      trendBuffer[0] = 0;
+      if (trendBuffer[1] == 0) {
+         durationBuffer[0] = durationBuffer[1]+1;
+         priceAtTrendChangeBuffer[0] = priceAtTrendChangeBuffer[1];
+      }
+      else {
+         durationBuffer[0]=1;
+         priceAtTrendChangeBuffer[0] = Open[0];
+      }
+
       return rates_total;
    }
    
