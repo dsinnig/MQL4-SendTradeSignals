@@ -24,6 +24,7 @@
 double histoBufferUp[];
 double histoBufferSide[];
 double histoBufferDown[];
+
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
